@@ -150,7 +150,7 @@ do
   export OMP_NUM_THREADS=$t
   res_file=$(basename ${binary} .bin)_${t}t.log
   echo "Running ${binary} with ${t} threads, output log will be saved in ${res_file}"
-  # ./${binary} &> ${res_file}
+  ./${binary} &> ${res_file}
   tail -n9 ${res_file}
 done
 
