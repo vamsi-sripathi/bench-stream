@@ -21,27 +21,14 @@ The following options are supported:
         cpu_target=<avx,avx2,avx512>
 ```
 
-`make help` shows the following menu on command-line:
+Few examples (Running `make help` on command-line display this as well):
 ```
-Running 'make' with no options would compile the STREAM benchmark with 134217728  FP64 elements per array for following Intel CPU's:
-
-        stream_avx.bin        => Targeted for Intel CPU's that support AVX ISA
-        stream_avx2.bin       => Targeted for Intel CPU's that support AVX2 ISA
-        stream_avx512.bin     => Targeted for Intel CPU's that support AVX512 ISA
-
-The following options are supported:
-        stream_array_size=<number_of_elements_per_array>
-
-        cpu_target=<avx,avx2,avx512>
-
-Few examples:
 To compile STREAM benchmark only for Intel AVX512 CPU's, do:
         make cpu_target=avx512
 
 To compile STREAM benchmark for Intel AVX512 CPU's with each buffer containing 67108864 elements, do:
         make stream_array_size=67108864 cpu_target=avx512
 ```
-
 
 **Running the benchmark: Execute ./bench.sh**
 
@@ -58,15 +45,18 @@ Below is the sample output of compilation and execution steps on a Intel CLX tes
 [vsripath@ortce-cl2 ~/repos/stream]$ make
 
 ======= Generating STREAM benchmark with AVX ISA =======
-icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xAVX -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double -DSTREAM_ARRAY_SIZE=134217728  -c stream.c -o stream_avx.o
+icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xAVX 
+-DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double -DSTREAM_ARRAY_SIZE=134217728 -c stream.c -o stream_avx.o
 icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xAVX stream_avx.o -o stream_avx.bin
 
 ======= Generating STREAM benchmark with AVX2 ISA =======
-icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xCORE-AVX2 -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double -DSTREAM_ARRAY_SIZE=134217728  -c stream.c -o stream_avx2.o
+icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xCORE-AVX2
+-DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double -DSTREAM_ARRAY_SIZE=134217728 -c stream.c -o stream_avx2.o
 icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xCORE-AVX2 stream_avx2.o -o stream_avx2.bin
 
 ======= Generating STREAM benchmark with AVX512 ISA =======
-icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xCORE-AVX512 -qopt-zmm-usage=high -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double -DSTREAM_ARRAY_SIZE=134217728  -c stream.c -o stream_avx512.o
+icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xCORE-AVX512
+-qopt-zmm-usage=high -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double -DSTREAM_ARRAY_SIZE=134217728 -c stream.c -o stream_avx512.o
 icc -Wall -O3 -mcmodel=medium -qopenmp -shared-intel -qopt-streaming-stores always -xCORE-AVX512 -qopt-zmm-usage=high stream_avx512.o -o stream_avx512.bin
 [vsripath@ortce-cl2 ~/repos/stream]$ ./bench.sh
 
