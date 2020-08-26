@@ -6,29 +6,28 @@ STREAM benchmark for Intel CPU's
 
 **Compilation:  Run `make`**
 
-Running 'make' with no options would compile the STREAM benchmark with 134217728 FP64 elements per array for following Intel CPU's:
+Compilation defaults/controls can be viewed by running, `make help` and result in following output:
 
 ```
+Running 'make' with no options would compile the STREAM benchmark with 134217728  FP64 elements per array for following Intel CPU's:
+
         stream_avx.bin        => Targeted for Intel CPU's that support AVX ISA
         stream_avx2.bin       => Targeted for Intel CPU's that support AVX2 ISA
         stream_avx512.bin     => Targeted for Intel CPU's that support AVX512 ISA
-```
 
 The following options are supported:
-```
         stream_array_size=<number_of_elements_per_array>
 
         cpu_target=<avx,avx2,avx512>
-```
 
-Few examples (Running `make help` on command-line display this as well):
-```
+Few examples:
 To compile STREAM benchmark only for Intel AVX512 CPU's, do:
         make cpu_target=avx512
 
 To compile STREAM benchmark for Intel AVX512 CPU's with each buffer containing 67108864 elements, do:
         make stream_array_size=67108864 cpu_target=avx512
 ```
+
 
 **Running the benchmark: Execute ./bench.sh**
 
