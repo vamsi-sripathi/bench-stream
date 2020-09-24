@@ -60,8 +60,11 @@ function mach_info()
 
    if [ -f /sys/devices/system/cpu/intel_pstate/no_turbo ]; then
       cpu_turbo=$( [ "$(cat /sys/devices/system/cpu/intel_pstate/no_turbo)" == 1 ] && echo "disabled" || echo "enabled")
+   elif [ -f /sys/devices/system/cpu/cpufreq/boost ]; then
+      cpu_turbo=$( [ "$(cat /sys/devices/system/cpu/cpufreq/boost)" == 1 ] && echo "enabled" || echo "disabled")
    fi
    cpu_scaling_governor=$(cat /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor | sort -u)
+   cpu_scaling_driver=$(cat /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_driver | sort -u)
    
    lscpu_flags=$(lscpu | grep "Flags:")
    
@@ -116,42 +119,198 @@ function show_mach_info()
   echo -e "Kernel version         = $kernel_release"
   echo -e "CPU Turbo Boost        = $cpu_turbo"
   echo -e "CPU Scaling Governor   = $cpu_scaling_governor"
+  echo -e "CPU Scaling Driver     = $cpu_scaling_driver"
   echo -e "Transparent Huge Pages = $thp"
 
   echo ""
-  echo "Target ISA  = ${target_cpu}"
   echo "ICC version = ${icc_version}"
+  echo "Target ISA  = ${target_cpu}"
+  echo "Hostname    = $(hostname -f)"
+  echo "Date        = $(date)"
   echo ""
-
 }
 
+function check_binary()
+{
+  if [ "${target_cpu}" == "avx512f" ]; then
+     binary=stream_avx512.bin
+  elif [ "${target_cpu}" == "avx2" ]; then
+     binary=stream_avx2.bin
+  elif [ "${target_cpu}" == "avx" ]; then
+     binary=stream_avx.bin
+  else
+     echo "Unknown ISA, aborting.."
+     exit 1
+  fi
+
+  if [ ! -f ${binary} ]; then
+     echo "${binary} not found, aborting.."
+     exit 1
+  fi
+
+  objdump -D ${binary} | grep vmovntpd &> /dev/null
+  if [ $? -eq 0 ]; then
+     nt_stores_status=exist
+     stype=nt
+  else
+     nt_stores_status="does-not-exist"
+     stype=rfo
+  fi
+
+  objdump -D ${binary} | grep memcpy &> /dev/null
+  if [ $? -eq 0 ]; then
+     memcpy_status=exist
+  else
+     memcpy_status="does-not-exist"
+  fi
+
+  objdump -D ${binary} | grep memset &> /dev/null
+  if [ $? -eq 0 ]; then
+     memset_status=exist
+  else
+     memset_status="does-not-exist"
+  fi
+
+  echo "${binary} disassembly:" 2>&1 | tee -a $$-runinfo.log
+  echo "NT-Stores : ${nt_stores_status}" 2>&1 | tee -a $$-runinfo.log
+  echo "Memcpy()  : ${memcpy_status}" 2>&1 | tee -a $$-runinfo.log
+  echo "Memset()  : ${memset_status}" 2>&1 | tee -a $$-runinfo.log
+}
+
+
+function simple_bench() 
+{
+  l0_dir=$(echo ${model_name} | sed -E -e 's/ /-/g' -e 's/\(R\)|\@|\$|\%//g')
+  res_dir=${l0_dir}/${stype}
+
+  mkdir -p ${res_dir}
+
+  if [ "${ht_enabled}" == "true" ]; then
+     export KMP_AFFINITY=granularity=fine,compact,1,0
+  else
+     export KMP_AFFINITY=compact
+  fi
+
+  for t in 1 ${num_cores_per_sock} ${num_cores_total}
+  do
+    export OMP_NUM_THREADS=$t
+    res_file=$(basename ${binary} .bin)_${t}t.log
+    echo "Running ${binary} with ${t} threads in compact affinity, output log will be saved in ${res_dir}/${res_file}"
+
+    cat $$-runinfo.log > ${res_dir}/${res_file}
+    ./${binary} &>> ${res_dir}/${res_file}
+  done
+
+  rm $$-runinfo.log
+}
+
+
+function bench_sweep()
+{
+  l0_dir=$(echo ${model_name} | sed -E -e 's/ /-/g' -e 's/\(R\)|\@|\$|\%//g')
+  l1_dir=nps-$num_numa_domains_per_sock
+
+#uma runs
+  mkdir -p ${l0_dir}/${l1_dir}/uma
+
+  for aff in compact distribute
+  do
+    res_dir=${l0_dir}/${l1_dir}/uma/${aff}/${stype}
+
+    if [ "$aff" == "compact" ]; then
+      mkdir -p ${res_dir}
+      cp $$-runinfo.log ${res_dir}/runinfo.log
+       if [ "${ht_enabled}" == "true" ]; then
+         export KMP_AFFINITY=granularity=fine,verbose,compact,1,0
+       else
+         export KMP_AFFINITY=verbose,compact
+       fi
+
+       # for ((t=1;t<=${num_cores_total};t++));
+       for t in $(seq 1 ${num_cores_per_sock}) ${num_cores_total};
+       do
+         export OMP_NUM_THREADS=$t
+         res_file=$(basename ${binary} .bin)_${t}t.log
+         echo "Running ${binary} with ${t} threads in $aff pinning, output log will be saved in ${res_dir}/${res_file}"
+
+         cat $$-runinfo.log > ${res_dir}/${res_file}
+         ./${binary} &>> ${res_dir}/${res_file}
+       done
+
+    elif [ "$aff" == "distribute" ]; then
+      if [ "${num_numa_domains_per_sock}" == "1" ]; then
+         continue
+      fi
+      mkdir -p ${res_dir}
+      cp $$-runinfo.log ${res_dir}/runinfo.log
+
+      cpus=()
+      for ((i=0;i<${num_numa_domains_per_sock};i++));
+      do
+        cpus+=($(numactl -H | grep "node $i cpus:" | awk -F ":" '{print $NF}'));
+      done
+
+      for ((t=1;t<=${num_cores_per_sock};t++));
+      do
+        res_file=$(basename ${binary} .bin)_${t}t.log
+        echo "Running ${binary} with ${t} threads in $aff pinning, output log will be saved in ${res_dir}/${res_file}"
+
+        proclist_=()
+        for ((tt=0;tt<$t;tt++));
+        do
+           offset1=$(($tt/${num_numa_domains_per_sock}))
+           offset2=$(($tt%${num_numa_domains_per_sock}))
+           id=$(($offset1+($offset2*$num_cores_per_numa_domain*$num_threads_per_core)))
+           # echo "$id, ${cpus[$id]}"
+           proclist_+=(${cpus[$id]})
+        done
+
+        proclist=$(echo ${proclist_[*]} | sed  's/ /,/g')
+        export KMP_AFFINITY="verbose,granularity=fine,proclist=[${proclist}],explicit"
+        export OMP_NUM_THREADS=$t
+
+        cat $$-runinfo.log > ${res_dir}/${res_file}
+        echo -e "Explicit Affinity list follows:\n ${proclist}" >> ${res_dir}/${res_file}
+        ./${binary} &>> ${res_dir}/${res_file}
+      done
+    fi
+  done
+
+#numa runs (with compact affinity only)
+  res_dir=${l0_dir}/${l1_dir}/numa/compact/${stype}
+  mkdir -p ${res_dir}
+
+  if [ "${ht_enabled}" == "true" ]; then
+     export KMP_AFFINITY=granularity=fine,compact,1,0
+  else
+     export KMP_AFFINITY=compact
+  fi
+
+  thread_list=(1 ${num_cores_per_numa_domain})
+  if [ "${num_cores_per_numa_domain}" != "${num_cores_per_sock}" ]; then
+    thread_list+=(${num_cores_per_sock})
+  fi
+
+  cp $$-runinfo.log ${res_dir}/runinfo.log
+  for t in ${thread_list[*]}
+  do
+    export OMP_NUM_THREADS=$t
+    for ((id=0;id<${num_numa_domains};id++));
+    do
+      res_file=$(basename ${binary} .bin)_${t}t_m${id}.log
+      echo "Running ${binary} with ${t} threads from numa-$id, output log will be saved in ${res_dir}/${res_file}"
+
+      cat $$-runinfo.log > ${res_dir}/${res_file}
+      numactl -m$id ./${binary} &>> ${res_dir}/${res_file}
+    done
+  done
+
+  rm $$-runinfo.log
+}
+     
+
+
 mach_info
-show_mach_info
-
-if [ "${target_cpu}" == "avx512f" ]; then
-   binary=stream_avx512.bin
-elif [ "${target_cpu}" == "avx2" ]; then
-   binary=stream_avx2.bin
-elif [ "${target_cpu}" == "avx" ]; then
-   binary=stream_avx.bin
-else
-   echo "Unknown ISA, aborting.."
-   exit 1
-fi
-
-if [ "${ht_enabled}" == "true" ]; then
-   export KMP_AFFINITY=granularity=fine,compact,1,0
-else
-   export KMP_AFFINITY=compact
-fi
-
-for t in ${num_cores_total}
-do
-  export OMP_NUM_THREADS=$t
-  res_file=$(basename ${binary} .bin)_${t}t.log
-  echo "Running ${binary} with ${t} threads, output log will be saved in ${res_file}"
-  ./${binary} &> ${res_file}
-  tail -n9 ${res_file}
-done
-
-
+show_mach_info 2>&1 | tee $$-runinfo.log
+check_binary
+bench_sweep
