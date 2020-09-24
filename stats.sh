@@ -193,7 +193,37 @@ function get_mem_bw()
   mv mb_${tag}_nt.stats ${dst_dir}/
   mv mb_${tag}_rfo.stats ${dst_dir}/
 
+  pushd ${dst_dir} > /dev/null
+  flist=""
+  for arch in ${archs[*]};
+  do
+    flist+=$(echo "${arch}_${tag}_nt_rfo.stats ")
+  done
+
+  ofile=$(echo ${archs[*]} | sed 's/ /_/g')_${tag}_nt_rfo.stats
+  paste ${flist[*]} > ${ofile}
+
+  infile=${ofile}
+  for stype in nt rfo
+  do
+    if [ "$stype" == "nt" ]; then
+      col=2
+    else
+      col=4
+    fi
+    ofile=$(echo ${archs[*]} | sed 's/ /_/g')_${tag}_${stype}.stats
+    echo "Kernel&$(echo ${archs[*]} | sed 's/ \+/\&/g')" > ${ofile}
+    awk -v col=$col '{if (NR>1) { printf("%s ",$1); for(i=col;i<NF;i+=5) {printf("& %.2f ", $i)} printf("\n");} }' ${infile} >> ${ofile}
+
+    tex_ofile=$(basename ${ofile} .stats).tex
+    echo "\begin{tabular}{|c|c|c|c|c|c|c|}  \hline" > ${tex_ofile}
+    awk -F "&" '{if (NR>1) {printf("%s & %.2f & %.2f & %.2f \\\\ \\hline \n",$0,$NF/$2,$(NF-1)/$2,$NF/$(NF-1))} else {printf("%s & %s/%s & %s/%s & %s/%s \\\\ \\hline \n", $0, $NF,$2, $(NF-1),$2, $NF,$(NF-1))}}' $ofile >> ${tex_ofile}
+    echo "\end{tabular}" >> ${tex_ofile}
+  done
+
+
   echo -e "results in ${dst_dir}"
+  popd > /dev/null
 }
 
 
@@ -555,8 +585,7 @@ EOF
 }
 
 # Globals
-# archs=(amd7402g4 amd7542g4 amd7742g4 clx8268 icx32cpq)
-archs=("ROME-7742" "CLX-8268" "ICX-32c")
+archs=("Rome" "CLX" "ICX")
 l1_dir="nps*"
 l2_dir="uma"
 l3_dir="compact"
@@ -576,7 +605,7 @@ else
 fi
 
 
-check_logs
+# check_logs
 
 set -e
 get_mem_bw core
