@@ -67,6 +67,9 @@ function mach_info()
    cpu_scaling_driver=$(cat /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_driver | sort -u)
    
    lscpu_flags=$(lscpu | grep "Flags:")
+   if [ -z "${lscpu_flags}" ]; then
+     lscpu_flags=$(cat /proc/cpuinfo | grep -m1 "flags[[:space:]]*:")
+   fi
    
    for isa in avx512f avx2 avx
    do
