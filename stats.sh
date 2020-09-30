@@ -317,7 +317,7 @@ set terminal pngcairo dashed enhanced
 set grid
 set key box outside bottom center horizontal
 set output "./${out_file}.png"
-set title "STREAM: ${arch} 1-Core, 1-Socket - NUMA bandwidth with ${stype}"
+set title "STREAM: ${arch} 1-Core, 1-Socket - NUMA bandwidth with ${stype^^}"
 set xlabel "NUMA domain ID"
 set ylabel "GB/sec"
 plot "./${in_file}" using 2:xticlabels(1) with linespoints lw 3 lt 1 lc 1 title "COPY - 1-core",\
@@ -361,28 +361,16 @@ function gen_plot()
     out_file=$(basename $f .stats)
 
 gnuplot <<- EOF
-# set terminal postscript enhanced color "Helvetica" 20
-# set terminal postscript enhanced color
-# set terminal png enhanced
 set terminal pngcairo enhanced
-# set key left top
-# set key right bottom
-# set key outside
-# set key horizontal
-# set output "./test.eps"
 set key box outside bottom center horizontal
 set output "./${out_file}.png"
 set grid
-# set title "STREAM: ${tag}" font "Helvetica,16"
-set title "STREAM: 1-${tag}"
-# set xlabel "Size"
+set title "STREAM: 1-${tag^^}"
 set ylabel "GB/sec"
 # plot "./mem_bw_core/mb_core_rfo.stats" using 2:xticlabels(1) with linespoints lt 1 lc 1 lw 5 title "COPY-RFO", "./mem_bw_core/mb_core_rfo.stats" using 3 with linespoints lt 2 lc 2 lw 5 title "TRIAD-RFO"
 plot "./${f}" using 2:xticlabels(1) with linespoints lw 3 title "COPY-${stype}", '' u 3 with linespoints lw 3 title "TRIAD-${stype}", '' u 4 with linespoints lw 3 title "REDUCE-${stype}", '' u 5 with linespoints lw 3 title "FILL-${stype}
 
-
 EOF
-# convert -density 300 -flatten -rotate 90 test.eps test.png
   done
 
   for arch in ${archs[*]}
@@ -395,7 +383,7 @@ set terminal pngcairo enhanced
 set grid
 set key center left
 set output "./${out_file}.png"
-set title "STREAM: ${arch} 1-${tag}"
+set title "STREAM: ${arch} 1-${tag^^}"
 set ylabel "GB/sec"
 plot "./${in_file}" using 2:xticlabels(1) with linespoints lw 3 title "NT", '' using 4:xticlabels(1) with linespoints lw 3 title "RFO"
 EOF
@@ -408,7 +396,7 @@ set grid
 # set key top right
 set key box outside bottom center horizontal
 set output "./mb_${tag}_nt_rfo.png"
-set title "STREAM: 1-${tag} Speed-up of NT stores over RFO"
+set title "STREAM: 1-${tag^^} Speed-up of NT stores over RFO"
 set ylabel "Speed-up"
 plot "./${archs[0]}_${tag}_nt_rfo.stats" using 5:xticlabels(1) with linespoints lw 3 title "${archs[0]}",\
      "./${archs[1]}_${tag}_nt_rfo.stats" using 5:xticlabels(1) with linespoints lw 3 title "${archs[1]}",\
@@ -450,7 +438,7 @@ set terminal pngcairo enhanced
 set grid
 set key bottom right
 set output "./${out_file}.png"
-set title "STREAM: ${kernel} ${stype} stores scaling with ${aff_type} affinity"
+set title "STREAM: ${kernel^^} ${stype^^} stores scaling with ${aff_type} affinity"
 set xlabel "Number of Threads"
 set ylabel "GB/sec"
 plot "./${archs[0]}_mb_${tag}_${aff_type}_${stype}.stats" using 1:${col_id} with linespoints lw 3 title "${archs[0]}",\
@@ -465,7 +453,7 @@ set terminal pngcairo enhanced
 set grid
 set key bottom right
 set output "./${out_file}.png"
-set title "STREAM: ${kernel} scaling, Speed-up of NT over RFO stores"
+set title "STREAM: ${kernel^^} scaling, Speed-up of NT over RFO stores"
 set xlabel "Number of Threads"
 set ylabel "Speed-up"
 plot "./${archs[0]}_mb_${tag}_${aff_type}_nt_rfo.stats" using 1:${col_id} with linespoints lw 3 title "${archs[0]}",\
@@ -507,7 +495,7 @@ set terminal pngcairo enhanced
 set grid
 set key bottom right
 set output "./${out_file}.png"
-set title "STREAM: ${arch} ${kernel} scaling with ${aff_type} affinity"
+set title "STREAM: ${arch} ${kernel^^} scaling with ${aff_type} affinity"
 set xlabel "Number of Threads"
 set ylabel "GB/sec"
 plot "./${in_file1}" using 1:${col_id} with linespoints lw 3 title "NT",\
@@ -546,7 +534,7 @@ set terminal pngcairo enhanced
 set grid
 set key bottom right
 set output "./${out_file}.png"
-set title "STREAM: ${arch} ${kernel} ${stype} stores scaling Compact vs Distributed Affinity"
+set title "STREAM: ${arch} ${kernel^^} ${stype^^} stores scaling Compact vs Distributed Affinity"
 set xlabel "Number of Threads"
 set ylabel "GB/sec"
 plot "./${in_file1}" using 1:${col_id} with linespoints lw 3 title "Compact",\
@@ -563,7 +551,7 @@ set grid
 # set key top right
 set key box outside bottom center horizontal
 set output "./${out_file}.png"
-set title "STREAM: ${arch} ${stype} stores scaling Compact vs Distributed Affinity"
+set title "STREAM: ${arch} ${stype^^} stores scaling Compact vs Distributed Affinity"
 set xlabel "Number of Threads"
 set ylabel "GB/sec"
 plot "./${in_file1}" using 1:2 with lines lw 3 lt 1 lc 1 title "COPY - Compact",\
@@ -606,7 +594,7 @@ else
 fi
 
 
-# check_logs
+check_logs
 
 set -e
 get_mem_bw core
