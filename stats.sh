@@ -556,6 +556,7 @@ EOF
 
     out_file=${arch}_${tag}_affinity_${stype}
 
+# newer version of gnuplot has dash-type (dt "-")
 gnuplot <<- EOF
 set terminal pngcairo dashed enhanced
 set grid
