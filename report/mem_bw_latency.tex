@@ -49,7 +49,7 @@
    \item NT: See figure-\ref{figure:mem_bw_core_nt}
        \begin{itemize}
           \item Rome vs ICX: Similar to the trend observed with RFO stores, Rome delivers higher bandwidth (33-50\%) for Copy, Triad and Reduce kernels. However, for the Fill kernel ICX beats Rome by 1.12x.
-          \item ICX vs CLX: ICX delivers siginificant performance gains of 2.4x, 3.7x for Copy and Fill kernels. Triad and Reduce show 1.6x and 1.3x gains respectively.
+          \item ICX vs CLX: ICX delivers significant performance gains of 2.4x, 3.7x for Copy and Fill kernels. Triad and Reduce show 1.6x and 1.3x gains respectively.
        \end{itemize}
 
    \item RFO vs NT:  See figure-\ref{figure:mem_bw_core_nt_rfo}
@@ -72,7 +72,7 @@
 
    \item NT: See figure-\ref{figure:mem_bw_scale_compact_nt}
       \begin{itemize}
-         \item Rome vs ICX: The performance is nearly identical for Copy, Triad and Reduce kernels with the Fill kernl showing 7\% better performance on Rome. On ICX, the Fill kernel loses performance when using all the threads in the socket. This results in reduction of about 10\% peak bandwidth for this kernel and falling below Rome performance.
+         \item Rome vs ICX: The performance is nearly identical for Copy, Triad and Reduce kernels with the Fill kernel showing 7\% better performance on Rome. On ICX, the Fill kernel loses performance when using all the threads in the socket. This results in reduction of about 10\% peak bandwidth for this kernel and falling below Rome performance.
          \item Rome vs CLX: Rome delivers superior performance (39-92\%).
          \item ICX vs CLX: ICX shows 1.4x to 1.8x higher performance than CLX.
       \end{itemize}
@@ -118,7 +118,7 @@
 As Moore's law pushes the compute capabilities, it's imperative to study the bandwidth and latency characteristics of the memory sub-system in order to design a well-balanced CPU architecture. Figure-\ref{figure:1} shows one of the approaches to evaluate the memory hierarchy where each of the axis represents a control variable that impacts the observed performance, namely --
 \begin{enumerate}
     \item Memory Hierarchy: Modern CPU's consists of different layers of memory pools. These include multiple levels of on-chip CPU data caches, on-chip multi-channel DRAM (MCDRAM), off-chip DDR. In addition, many CPU's support non-uniform memory access (NUMA) which acts as another memory tier.
-    \item Application Threads: CPU vendors have taken different architectural routes (e.g., chiplet, large mesh) in scaling the number of cores. As the number of cores in modern CPU's increase, the cost of implementing cache coherency protocols get expensive. On these systems, the number of application threads employed and how these threads are pinned to underlying cpu cores gives an ability to understand the strengths and weaknesses of a CPU architecture.
+    \item Application Threads: CPU vendors have taken different architectural routes (e.g., chiplet, large mesh) in scaling the number of cores. As the number of cores in modern CPU's increase, the cost of implementing cache coherency protocols get expensive. On these systems, the number of application threads employed and how these threads are pinned to underlying CPU cores gives an ability to understand the strengths and weaknesses of a CPU architecture.
     \item Traffic Pattern: The type of memory traffic generated play a defining role in determining the performance. After all, the memory bandwidth requirements of a dense matrix-matrix multiplication is vastly different from a stencil kernel. In addition, the cache write policies also impact performance depending upon whether a non-temporal store instruction is used in writing back the date to main memory.
 \end{enumerate}
 
@@ -178,7 +178,7 @@ The theoretical peak memory bandwidth is calculated as:
 \subsection{STREAM Benchmark}
 STREAM is a widely used standard benchmark to characterize the memory performance. It consists of the following 4 kernels -- Copy, Scale, Add, Triad. The characteristics of these kernels are listed in table-\ref{table:stream_kernels}. As can be observed from the table, Scale and Add process the same number of bytes as Copy and Triad respectively and only differ in the floating-point operations. The differences in floating-point calculations is insignificant as these operations are memory-bound. Hence, we do not show the performance of these two kernels in the remaining part of the report.
 
-To cover additional traffic patterns, we developed two more kernels representing 100\% read (Reduce) and 100\% write traffic (Fill). The Reduce kernel performs a vector reduction by an \textit{add} opeartor and the Fill kernel writes a constant scalar value to all elements of a buffer. The source code for these kernels can be accessed at the following internal GIT repository \url{https://gitlab.devtools.intel.com/vsripath/stream/}
+To cover additional traffic patterns, we developed two more kernels representing 100\% read (Reduce) and 100\% write traffic (Fill). The Reduce kernel performs a vector reduction by an \textit{add} operator and the Fill kernel writes a constant scalar value to all elements of a buffer. The source code for these kernels can be accessed at the following internal GIT repository \url{https://gitlab.devtools.intel.com/vsripath/stream/}
 
 \subsubsection{Target ISA}
 The ISA used determines how many number of bytes are transferred to/from memory from/to CPU registers in a single vector instruction. AVX2 and AVX512F vector instructions operate on 256b and 512b wide CPU registers respectively and hence transfer 32B and 64B per load/store instruction respectively. STREAM benchmark is compiled with Intel C Compiler with the relevant flags to generate the optimal instruction generation for the target processor. The highest ISA supported on AMD Rome and Intel CLX, ICX is AVX2 and AVX512F respectively. Hence, AVX2 and AVX512F instructions are generated in the binary that is executed on AMD Rome and Intel CLX, ICX respectively. Refer to the makefile at the aforementioned GIT source repository for all the Compiler flags used in building the binaries used in this study.
@@ -296,7 +296,7 @@ Figure-\ref{figure:mem_bw_core_rfo} RFO observations:
 \begin{table}[h!]
 \centering
 \input{../mem_bw_core/Rome_CLX_ICX_core_rfo}
-\caption{1-Core peak bandwdith: RFO}
+\caption{1-Core peak bandwidth: RFO}
 \label{table:mem_bw_core_rfo}
 \end{table}
 
@@ -305,7 +305,7 @@ Figure-\ref{figure:mem_bw_core_rfo} RFO observations:
 Figure-\ref{figure:mem_bw_core_nt} NT observations:
 \begin{enumerate}
 \item Rome vs ICX: Similar to the trend observed with RFO stores, Rome delivers higher bandwidth (33-50\%) for Copy, Triad and Reduce kernels. However, for the Fill kernel ICX beats Rome by 1.12x.
-\item ICX vs CLX: ICX delivers siginificant performance gains of 2.4, 3.7x for Copy and Fill kernels. Triad and Reduce show 1.6x and 1.3x gains respectively.
+\item ICX vs CLX: ICX delivers significant performance gains of 2.4, 3.7x for Copy and Fill kernels. Triad and Reduce show 1.6x and 1.3x gains respectively.
 \item Table-\ref{table:mem_bw_core_nt} summarizes the speed-up of all kernels.
 \end{enumerate}
 
@@ -313,7 +313,7 @@ Figure-\ref{figure:mem_bw_core_nt} NT observations:
 \begin{table}[h!]
 \centering
 \input{../mem_bw_core/Rome_CLX_ICX_core_nt}
-\caption{1-Core peak bandwdith: NT}
+\caption{1-Core peak bandwidth: NT}
 \label{table:mem_bw_core_nt}
 \end{table}
 
@@ -361,7 +361,7 @@ Figure-\ref{figure:mem_bw_scale_compact_rfo} observations:
 \begin{table}[h!]
 \centering
 \input{../mem_bw_socket/Rome_CLX_ICX_socket_rfo}
-\caption{1-Socket peak bandwdith: RFO}
+\caption{1-Socket peak bandwidth: RFO}
 \label{table:mem_bw_socket_rfo}
 \end{table}
 
@@ -396,7 +396,7 @@ Figure-\ref{figure:mem_bw_scale_compact_nt} observations:
 \begin{table}[h!]
 \centering
 \input{../mem_bw_socket/Rome_CLX_ICX_socket_nt}
-\caption{1-Socket peak bandwdith: NT}
+\caption{1-Socket peak bandwidth: NT}
 \label{table:mem_bw_socket_nt}
 \end{table}
 
@@ -416,7 +416,7 @@ Figure-\ref{figure:mem_bw_scale_compact_nt} observations:
 \begin{enumerate}
 \item Copy: As mentioned in table-\ref{table:stream_kernels}, the ideal speed-up of NT over RFO for Copy kernel should be 1.5x. Rome matches with the expected ideal speed-up. CLX reaches the 1.5x speed-up at higher thread count. On ICX, the gains of using NT stores vanishes as thread count increases. Also, to be noted is that CLX and ICX exhibit opposing scaling curve.
 \item Triad: The ideal speed-up of NT over RFO for Triad should be 1.33x. Rome exhibits the ideal speed-up. CLX shows expected gains at higher thread counts, whereas ICX shows maximum gains of about 1.3x at lower threads counts with NT stores.
-\item Reduce: The performance of Reduce kernel should remain identical with both NT and regular stores. However, the Reduce kernel on Rome shows upto 40\% performance gains with NT stores. Deeper investigation of this kernel code generation revealed that the Intel compiler does aggressive unrolling when using regular stores. This results in more in-flight loads and appears to be the root-cause for the slowdown with regular stores. Interestingly, even though the Intel Compiler does the same aggressive unrolling with regular stores on CLX and ICX, these two architectures seems to be more resilient to additional in-flight loads and do not result in lower performance.
+\item Reduce: The performance of Reduce kernel should remain identical with both NT and regular stores. However, the Reduce kernel on Rome shows up to 40\% performance gains with NT stores. Deeper investigation of this kernel code generation revealed that the Intel compiler does aggressive unrolling when using regular stores. This results in more in-flight loads and appears to be the root-cause for the slowdown with regular stores. Interestingly, even though the Intel Compiler does the same aggressive unrolling with regular stores on CLX and ICX, these two architectures seems to be more resilient to additional in-flight loads and do not result in lower performance.
 \item Fill: The ideal speed-up of NT over RFO should be 2x. Rome reaches the expected gains once the thread count is greater than the number of cores of NUMA domain. CLX and ICX exhibit different behavior for this kernel with ICX continuing the trend of losing gains of using NT over regular stores as thread count increases.
 \end{enumerate}
 
@@ -471,7 +471,7 @@ Figure-\ref{figure:mem_bw_node} shows the peak achieved bandwidth when all cores
 \begin{table}[h!]
 \centering
 \input{../mem_bw_node/Rome_CLX_ICX_node_rfo}
-\caption{2-socket peak bandwdith: RFO}
+\caption{2-socket peak bandwidth: RFO}
 \label{table:mem_bw_node_rfo}
 \end{table}
 
@@ -479,7 +479,7 @@ Figure-\ref{figure:mem_bw_node} shows the peak achieved bandwidth when all cores
 \begin{table}[h!]
 \centering
 \input{../mem_bw_node/Rome_CLX_ICX_node_nt}
-\caption{2-socket peak bandwdith: NT}
+\caption{2-socket peak bandwidth: NT}
 \label{table:mem_bw_node_nt}
 \end{table}
 
@@ -506,7 +506,7 @@ In this section, we will explore the performance impact of explicitly pinning me
 \item NUMA Placement: Explicitly specify a single NUMA domain using \textit{numactl}. This forces all the memory accesses to go to that NUMA domain.
 \item Threads Placement: For both 1-core and 1-socket (utilizing all the cores in a socket), we explicitly pin the OpenMP threads to socket-0 cores. 
 \item The combination of the above two enables us to evaluate the cross-socket interconnect (Intel UPI, AMD Infinity Fabric) bandwidth as well.
-\item Since Rome and CLX, ICX are setup in different NPS modes, it is not a fair one-to-one comparison. Rather, it should be seen as what are the trade-off's of using one mode on given architecture on application performance.
+\item Since Rome and CLX, ICX are setup in different NPS modes, it is not a fair one-to-one comparison. Rather, it should be seen as what are the trade-offs of using one mode on given architecture on application performance.
 \end{enumerate}
  
 \begin{figure}[!ht]
@@ -524,7 +524,7 @@ Figure-\ref{figure:mem_bw_numa_rfo} shows the performance of STREAM kernels with
 \begin{itemize}
 \item Rome:
 \begin{itemize}
-\item Local vs Remote NUMA: Since Rome is setup in NPS-4 mode, it has 4 NUMA domain domains per socket (0-3) and a total of 8 NUMA domains in a 2-socket system. This naturally translates to higher bandwdith for memory accesses going to local NUMA domains in socket-0 i.e., NUMA domain 0 to 3. With NUMA domain 4 to 7, the memory requests have to cross the socket over the on-chip interconnect and hence leads to lower performance.
+\item Local vs Remote NUMA: Since Rome is setup in NPS-4 mode, it has 4 NUMA domain domains per socket (0-3) and a total of 8 NUMA domains in a 2-socket system. This naturally translates to higher bandwidth for memory accesses going to local NUMA domains in socket-0 i.e., NUMA domain 0 to 3. With NUMA domain 4 to 7, the memory requests have to cross the socket over the on-chip interconnect and hence leads to lower performance.
 \item Local NUMA: In NPS-4, memory accesses going to each NUMA domain are interleaved across only 2 memory channels (4 NUMA domains $\times$ 2 channels = 8 channels), this leads to substantially lower memory bandwidth even when using all cores in a socket. This can be observed by comparing the 1-socket performance in figure-\ref{figure:mem_bw_numa_rfo} with figure-\ref{figure:mem_bw_scale_compact_rfo} where memory is distributed across all NUMA domain in a socket.
 \end{itemize}
 
@@ -623,25 +623,25 @@ Figure-\ref{figure:mem_bw_numa_rfo} shows the performance of STREAM kernels with
 \begin{table}[!hb]
 \centering
 \input{../icx-32c-snc/mem_bw_core/SNC-1_SNC-2_SNC-4_core_rfo}
-\caption{ICX 1-Core peak bandwdith: RFO with SNC modes}
+\caption{ICX 1-Core peak bandwidth: RFO with SNC modes}
 \label{table:mem_bw_core_rfo_icx_snc}
 \end{table}
 \begin{table}[!hb]
 \centering
 \input{../icx-32c-snc/mem_bw_core/SNC-1_SNC-2_SNC-4_core_nt}
-\caption{ICX 1-Core peak bandwdith: NT with SNC modes}
+\caption{ICX 1-Core peak bandwidth: NT with SNC modes}
 \label{table:mem_bw_core_nt_icx_snc}
 \end{table}
 \begin{table}[!hb]
 \centering
 \input{../icx-32c-snc/mem_bw_node/SNC-1_SNC-2_SNC-4_node_rfo}
-\caption{ICX 2-Socket peak bandwdith: RFO with SNC modes}
+\caption{ICX 2-Socket peak bandwidth: RFO with SNC modes}
 \label{table:mem_bw_node_rfo_icx_snc}
 \end{table}
 \begin{table}[!hb]
 \centering
 \input{../icx-32c-snc/mem_bw_node/SNC-1_SNC-2_SNC-4_node_nt}
-\caption{ICX 2-Socket peak bandwdith: NT with SNC modes}
+\caption{ICX 2-Socket peak bandwidth: NT with SNC modes}
 \label{table:mem_bw_node_nt_icx_snc}
 \end{table}
 
@@ -737,25 +737,25 @@ Figure-\ref{figure:mem_bw_numa_rfo} shows the performance of STREAM kernels with
 \begin{table}[!hb]
 \centering
 \input{../clx-8280l-snc/mem_bw_core/SNC-1_SNC-2_core_rfo}
-\caption{CLX 1-Core peak bandwdith: RFO with SNC modes}
+\caption{CLX 1-Core peak bandwidth: RFO with SNC modes}
 \label{table:mem_bw_core_rfo_clx_snc}
 \end{table}
 \begin{table}[!hb]
 \centering
 \input{../clx-8280l-snc/mem_bw_core/SNC-1_SNC-2_core_nt}
-\caption{CLX 1-Core peak bandwdith: NT with SNC modes}
+\caption{CLX 1-Core peak bandwidth: NT with SNC modes}
 \label{table:mem_bw_core_nt_clx_snc}
 \end{table}
 \begin{table}[!hb]
 \centering
 \input{../clx-8280l-snc/mem_bw_node/SNC-1_SNC-2_node_rfo}
-\caption{CLX 2-Socket peak bandwdith: RFO with SNC modes}
+\caption{CLX 2-Socket peak bandwidth: RFO with SNC modes}
 \label{table:mem_bw_node_rfo_clx_snc}
 \end{table}
 \begin{table}[!hb]
 \centering
 \input{../clx-8280l-snc/mem_bw_node/SNC-1_SNC-2_node_nt}
-\caption{CLX 2-Socket peak bandwdith: NT with SNC modes}
+\caption{CLX 2-Socket peak bandwidth: NT with SNC modes}
 \label{table:mem_bw_node_nt_clx_snc}
 \end{table}
 
@@ -783,7 +783,7 @@ L3 Cache per socket & \makecell{256 MiB\\(16-way shared)} & \makecell{35.7 MiB\\
 
 
 \subsection{Latency: Idle, Loaded}
-Idle latency is measured on cpu core-0 while the rest of the cores on the CPU are in idle state. Although this is an artificial scenario, this is a best case setup from a CPU architecture study. \\
+Idle latency is measured on CPU core-0 while the rest of the cores on the CPU are in idle state. Although this is an artificial scenario, this is a best case setup from a CPU architecture study. \\
 Loaded latency measured on core-0 when all the remaining cores are stressing memory bandwidth. Inject delay (in cycles) specify the duration window when the bandwidth generation cores go to idle spin loop. As injection delay increases, latency decreases since there is less contention for queueing resources. 
 \subsubsection{Level-2 Cache}
 \begin{figure}[!ht]
@@ -806,7 +806,7 @@ Loaded latency measured on core-0 when all the remaining cores are stressing mem
     \label{figure:mlc_lat_l3}
 \end{figure}
 \subsubsection{Cache-to-Cache Transfer}
-Figure-\ref{figure:mlc_c2c_modified} shows the latency to fetch a modified cache line to core-0 from a remote core ID. On Rome, the latency increases as the distance between core-0 and remote core ID increases. We can observe this patten even within a socket since Rome is configured in NPS-4 mode. On CLX, ICX with NPS-/SNC-1, the latency remains flat for remote core ID's that are within socket-0.
+Figure-\ref{figure:mlc_c2c_modified} shows the latency to fetch a modified cache line to core-0 from a remote core ID. On Rome, the latency increases as the distance between core-0 and remote core ID increases. We can observe this pattern even within a socket since Rome is configured in NPS-4 mode. On CLX, ICX with NPS-/SNC-1, the latency remains flat for remote core ID's that are within socket-0.
 \begin{figure}[!hb]
     \centering
     \includegraphics[width=0.45\textwidth]{../mlc/c2c_modified_l2}
