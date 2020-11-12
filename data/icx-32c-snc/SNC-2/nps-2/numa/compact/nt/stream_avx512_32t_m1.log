@@ -1,0 +1,83 @@
+
+CPU Model =  Genuine Intel(R) CPU $0000%@
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 64
+	num_cores_per_socket = 32
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 4
+	num_numa_domains_per_socket = 2
+	num_cores_per_numa_domain   = 16
+
+Memory = 528.06 GB
+
+CPU Caches:
+	L1_cache = 48K (12-way)
+	L2_cache = 1280K (20-way)
+	L3_cache = 49152K (12-way)
+	L3_cache_per_sock = 49152 KB
+	L3_cache_per_core = 1536 KB
+
+OS:
+Operating System       = CentOS Linux 7 (Core)
+Kernel version         = 3.10.0-1062.18.1.el7.x86_64
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = intel_pstate
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 19.1.2.254 20200623
+Target ISA  = avx512f
+Hostname    = ortce-icx1.jf.intel.com
+Date        = Fri Sep 25 15:10:52 PDT 2020
+
+stream_avx512.bin disassembly:
+NT-Stores : exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 134217728 (elements), Offset = 0 (elements)
+Memory per array = 1024.0 MiB (= 1.0 GiB).
+Total memory required = 3072.0 MiB (= 3.0 GiB).
+Each kernel will be executed 100 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 32
+Number of Threads counted = 32
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 27443 microseconds.
+   (= 27443 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:           79243.4     0.027243     0.027100     0.027354
+Scale:          78934.4     0.027301     0.027206     0.027412
+Add:            79790.7     0.040522     0.040371     0.040707
+Triad:          79869.5     0.040495     0.040331     0.040654
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+-------------------------------------------------------------
+STREAM Extra kernels..
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Fill:           68913.0     0.015831     0.015581     0.016048
+Reduce:         87056.4     0.012403     0.012334     0.012465
+-------------------------------------------------------------
+validation passed for Fill kernel
+validation passed for Reduce kernel

@@ -1,0 +1,41 @@
+
+CPU Model =  Genuine Intel(R) CPU $0000%@
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 64
+	num_cores_per_socket = 32
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 8
+	num_numa_domains_per_socket = 4
+	num_cores_per_numa_domain   = 8
+
+Memory = 528.06 GB
+
+CPU Caches:
+	L1_cache = 48K (12-way)
+	L2_cache = 1280K (20-way)
+	L3_cache = 49152K (12-way)
+	L3_cache_per_sock = 49152 KB
+	L3_cache_per_core = 1536 KB
+
+OS:
+Operating System       = CentOS Linux 7 (Core)
+Kernel version         = 3.10.0-1062.18.1.el7.x86_64
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = intel_pstate
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 19.1.2.254 20200623
+Target ISA  = avx512f
+Hostname    = ortce-icx1.jf.intel.com
+Date        = Fri Sep 25 13:16:52 PDT 2020
+
+stream_avx512.bin disassembly:
+NT-Stores : exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist

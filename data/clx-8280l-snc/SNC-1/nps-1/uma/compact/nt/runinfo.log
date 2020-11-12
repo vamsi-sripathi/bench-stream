@@ -1,0 +1,41 @@
+
+CPU Model =  Intel(R) Xeon(R) Platinum 8280L CPU @ 2.70GHz
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 56
+	num_cores_per_socket = 28
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 2
+	num_numa_domains_per_socket = 1
+	num_cores_per_numa_domain   = 28
+
+Memory = 196.52 GB
+
+CPU Caches:
+	L1_cache = 32K (8-way)
+	L2_cache = 1024K (16-way)
+	L3_cache = 39424K (11-way)
+	L3_cache_per_sock = 39424 KB
+	L3_cache_per_core = 1408 KB
+
+OS:
+Operating System       = Red Hat Enterprise Linux Server 7.3 (Maipo)
+Kernel version         = 3.10.0-1062.el7.x86_64
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = intel_pstate
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 19.1.2.254 20200623
+Target ISA  = avx512f
+Hostname    = ortce-cl4.jf.intel.com
+Date        = Fri Sep 25 14:16:51 PDT 2020
+
+stream_avx512.bin disassembly:
+NT-Stores : exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
