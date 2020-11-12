@@ -241,41 +241,54 @@ function bench_sweep()
        done
 
     elif [ "$aff" == "distribute" ]; then
+      unset KMP_AFFINITY
       if [ "${num_numa_domains_per_sock}" == "1" ]; then
          continue
       fi
       mkdir -p ${res_dir}
       cp $$-runinfo.log ${res_dir}/runinfo.log
 
-      cpus=()
-      for ((i=0;i<${num_numa_domains_per_sock};i++));
-      do
-        cpus+=($(numactl -H | grep "node $i cpus:" | awk -F ":" '{print $NF}'));
-      done
+      export OMP_PROC_BIND=spread
+      export KMP_HW_SUBSET=1s
 
       for ((t=1;t<=${num_cores_per_sock};t++));
       do
         res_file=$(basename ${binary} .bin)_${t}t.log
         echo "Running ${binary} with ${t} threads in $aff pinning, output log will be saved in ${res_dir}/${res_file}"
-
-        proclist_=()
-        for ((tt=0;tt<$t;tt++));
-        do
-           offset1=$(($tt/${num_numa_domains_per_sock}))
-           offset2=$(($tt%${num_numa_domains_per_sock}))
-           id=$(($offset1+($offset2*$num_cores_per_numa_domain*$num_threads_per_core)))
-           # echo "$id, ${cpus[$id]}"
-           proclist_+=(${cpus[$id]})
-        done
-
-        proclist=$(echo ${proclist_[*]} | sed  's/ /,/g')
-        export KMP_AFFINITY="verbose,granularity=fine,proclist=[${proclist}],explicit"
-        export OMP_NUM_THREADS=$t
-
         cat $$-runinfo.log > ${res_dir}/${res_file}
-        echo -e "Explicit Affinity list follows:\n ${proclist}" >> ${res_dir}/${res_file}
+        export OMP_NUM_THREADS=$t
         ./${binary} &>> ${res_dir}/${res_file}
       done
+
+      # cpus=()
+      # for ((i=0;i<${num_numa_domains_per_sock};i++));
+      # do
+      #   cpus+=($(numactl -H | grep "node $i cpus:" | awk -F ":" '{print $NF}'));
+      # done
+
+      # for ((t=1;t<=${num_cores_per_sock};t++));
+      # do
+      #   res_file=$(basename ${binary} .bin)_${t}t.log
+      #   echo "Running ${binary} with ${t} threads in $aff pinning, output log will be saved in ${res_dir}/${res_file}"
+
+      #   proclist_=()
+      #   for ((tt=0;tt<$t;tt++));
+      #   do
+      #      offset1=$(($tt/${num_numa_domains_per_sock}))
+      #      offset2=$(($tt%${num_numa_domains_per_sock}))
+      #      id=$(($offset1+($offset2*$num_cores_per_numa_domain*$num_threads_per_core)))
+      #      # echo "$id, ${cpus[$id]}"
+      #      proclist_+=(${cpus[$id]})
+      #   done
+
+      #   proclist=$(echo ${proclist_[*]} | sed  's/ /,/g')
+      #   export KMP_AFFINITY="verbose,granularity=fine,proclist=[${proclist}],explicit"
+      #   export OMP_NUM_THREADS=$t
+
+      #   cat $$-runinfo.log > ${res_dir}/${res_file}
+      #   echo -e "Explicit Affinity list follows:\n ${proclist}" >> ${res_dir}/${res_file}
+      #   ./${binary} &>> ${res_dir}/${res_file}
+      # done
     fi
   done
 
@@ -288,6 +301,8 @@ function bench_sweep()
   else
      export KMP_AFFINITY=compact
   fi
+  unset OMP_PROC_BIND
+  unset KMP_HW_SUBSET
 
   thread_list=(1 ${num_cores_per_numa_domain})
   if [ "${num_cores_per_numa_domain}" != "${num_cores_per_sock}" ]; then
