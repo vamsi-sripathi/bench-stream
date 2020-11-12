@@ -1,4 +1,4 @@
-personal_ws-1.1 en 52 
+personal_ws-1.1 en 51 
 LLC
 prefetchers
 vmovntpd
@@ -20,7 +20,6 @@ Latencies
 IAGS
 queueing
 Epyc
-EPYC
 HBM
 chiplet
 filecolor

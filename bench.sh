@@ -181,7 +181,7 @@ function check_binary()
 }
 
 
-function simple_bench() 
+function bench_simple() 
 {
   l0_dir=$(echo ${model_name} | sed -E -e 's/ /-/g' -e 's/\(R\)|\@|\$|\%//g')
   res_dir=${l0_dir}/${stype}
