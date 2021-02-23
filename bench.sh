@@ -331,4 +331,5 @@ function bench_sweep()
 mach_info
 show_mach_info 2>&1 | tee $$-runinfo.log
 check_binary
+#bench_simple
 bench_sweep
