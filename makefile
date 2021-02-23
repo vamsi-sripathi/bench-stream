@@ -7,7 +7,7 @@ CC  = icc
 # -DSTREAM_ARRAY_SIZE specifies the number of elements in each buffer
 #  size -A -d *.bin || nm --print-size --size-sort --radix=d *.bin
 STREAM_CPP_OPTS   = -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double
-STREAM_ARRAY_SIZE = 134217728 #(=128*1024*1024)
+STREAM_ARRAY_SIZE = 268435456 #(=256*1024*1024 elements = 2GiB with FP64)
 
 ifdef stream_array_size
 STREAM_ARRAY_SIZE = $(stream_array_size)
