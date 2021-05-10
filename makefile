@@ -7,7 +7,9 @@ CC  = icc
 # -DSTREAM_ARRAY_SIZE specifies the number of elements in each buffer
 #  size -A -d *.bin || nm --print-size --size-sort --radix=d *.bin
 STREAM_CPP_OPTS   = -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double
-STREAM_ARRAY_SIZE = 268435456 #(=256*1024*1024 elements = 2GiB with FP64)
+# Size per array is approx. ~2GB. Delibrately using non-power of 2 elements
+# 256*1024*1024 elements = 268435456 elements = 2GiB with FP64
+STREAM_ARRAY_SIZE = 269000000
 
 ifdef stream_array_size
 STREAM_ARRAY_SIZE = $(stream_array_size)
@@ -16,7 +18,7 @@ STREAM_CPP_OPTS += -DSTREAM_ARRAY_SIZE=$(STREAM_ARRAY_SIZE)
 
 ifdef amd
 AVX_COPTS         = -axAVX -march=corei7-avx
-AVX2_COPTS        = -axCORE-AVX2 -march=core-avx2 
+AVX2_COPTS        = -axCORE-AVX2 -march=core-avx2
 AVX512_COPTS      = 
 else
 # Intel Compiler options to control the generated ISA

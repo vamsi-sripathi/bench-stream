@@ -1,7 +1,6 @@
 #include "stream.h"
 #include "omp.h"
 #include "stdlib.h"
-#include "immintrin.h"
 
 #define NUM_EXTRA_KERNELS (2)
 #define ALIGNMENT (64)
