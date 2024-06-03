@@ -1,4 +1,7 @@
+#ifndef CC
+# Use -diag-disable=10441 knob to supress ICC EOL msgs
 CC  = icc
+#endif
 
 # STREAM options:
 # -DNTIMES control the number of times each stream kernel is executed
@@ -19,7 +22,7 @@ STREAM_CPP_OPTS += -DSTREAM_ARRAY_SIZE=$(STREAM_ARRAY_SIZE)
 ifdef amd
 AVX_COPTS         = -axAVX -march=corei7-avx
 AVX2_COPTS        = -axCORE-AVX2 -march=core-avx2
-AVX512_COPTS      = 
+AVX512_COPTS      = -axCORE-AVX512 -march=skylake-avx512 -qopt-zmm-usage=high
 else
 # Intel Compiler options to control the generated ISA
 AVX_COPTS         = -xAVX
@@ -31,14 +34,21 @@ endif
 COMMON_COPTS  = -Wall -O3 -mcmodel=medium -qopenmp -shared-intel
 
 ifdef use_rfo
-COMMON_COPTS += -qopt-streaming-stores never -fno-builtin
+COMMON_COPTS += -qopt-streaming-stores=never -fno-builtin
 else
-COMMON_COPTS += -qopt-streaming-stores always
+COMMON_COPTS += -qopt-streaming-stores=always -fno-builtin
 endif
 
+ifdef spr_hbm
+# Prefetches are only needed for NT's on SPR-HBM
+ifndef use_rfo
+STREAM_ARRAY_SIZE = 500000000
+COMMON_COPTS     += -qopt-prefetch=5 -qopt-prefetch-distance=128,16
+endif
+endif
 
-AVX_OBJS = stream_avx.o
-AVX2_OBJS = stream_avx2.o
+AVX_OBJS    = stream_avx.o
+AVX2_OBJS   = stream_avx2.o
 AVX512_OBJS = stream_avx512.o
 
 ifdef cpu_target
