@@ -1,0 +1,74 @@
+
+CPU Model =  AMD EPYC 9654 96-Core Processor
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 192
+	num_cores_per_socket = 96
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 8
+	num_numa_domains_per_socket = 4
+	num_cores_per_numa_domain   = 24
+
+Memory = 1584.82 GB
+
+CPU Caches:
+	L1_cache = 32K (8-way)
+	L2_cache = 1024K (8-way)
+	L3_cache = 32768K (16-way)
+	L3_cache_per_sock = 393216 KB
+	L3_cache_per_core = 4096 KB
+
+OS:
+Operating System       = Ubuntu 23.10
+Kernel version         = 6.5.0-28-generic
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = acpi-cpufreq
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 2021.10.0 20230609
+Target ISA  = avx512f
+Hostname    = ortce-genoa96c.jf.intel.com
+Date        = Mon May 27 22:39:52 PDT 2024
+
+stream_avx512.bin.amd_nt disassembly:
+NT-Stores : exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 700000000 (elements), Offset = 0 (elements)
+Memory per array = 5340.6 MiB (= 5.2 GiB).
+Total memory required = 16021.7 MiB (= 15.6 GiB).
+Each kernel will be executed 100 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 2
+Number of Threads counted = 2
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 121508 microseconds.
+   (= 121508 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:           95942.1     0.117032     0.116737     0.117583
+Scale:          96028.5     0.116902     0.116632     0.117652
+Add:            92431.1     0.182313     0.181757     0.182914
+Triad:          92923.9     0.181226     0.180793     0.181679
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------

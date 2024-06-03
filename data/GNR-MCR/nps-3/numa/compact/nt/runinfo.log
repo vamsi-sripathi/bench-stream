@@ -1,0 +1,41 @@
+
+CPU Model =  GENUINE INTEL(R) XEON(R)
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 256
+	num_cores_per_socket = 128
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 6
+	num_numa_domains_per_socket = 3
+	num_cores_per_numa_domain   = 43
+
+Memory = 1584.87 GB
+
+CPU Caches:
+	L1_cache = 48K (12-way)
+	L2_cache = 2048K (16-way)
+	L3_cache = 516096K (16-way)
+	L3_cache_per_sock = 516096 KB
+	L3_cache_per_core = 4032 KB
+
+OS:
+Operating System       = Ubuntu 23.10
+Kernel version         = 6.5.0-35-generic
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = intel_pstate
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 2021.10.0 20230609
+Target ISA  = avx512f
+Hostname    = ortce-gnrap2.jf.intel.com
+Date        = Wed May 29 12:37:50 PM PDT 2024
+
+stream_avx512.bin.nt disassembly:
+NT-Stores : exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist

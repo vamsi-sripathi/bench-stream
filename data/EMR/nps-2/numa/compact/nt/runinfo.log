@@ -1,0 +1,41 @@
+
+CPU Model =  INTEL(R) XEON(R) PLATINUM 8592+
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 128
+	num_cores_per_socket = 64
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 4
+	num_numa_domains_per_socket = 2
+	num_cores_per_numa_domain   = 32
+
+Memory = 527.87 GB
+
+CPU Caches:
+	L1_cache = 48K (12-way)
+	L2_cache = 2048K (16-way)
+	L3_cache = 327680K (20-way)
+	L3_cache_per_sock = 327680 KB
+	L3_cache_per_core = 5120 KB
+
+OS:
+Operating System       = Ubuntu 23.10
+Kernel version         = 6.5.0-28-generic
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = intel_pstate
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 2021.10.0 20230609
+Target ISA  = avx512f
+Hostname    = ortce-emr2.jf.intel.com
+Date        = Tue May 28 14:49:56 PDT 2024
+
+stream_avx512.bin.nt disassembly:
+NT-Stores : exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist

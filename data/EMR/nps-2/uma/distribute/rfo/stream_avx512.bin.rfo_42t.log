@@ -1,0 +1,74 @@
+
+CPU Model =  INTEL(R) XEON(R) PLATINUM 8592+
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 128
+	num_cores_per_socket = 64
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 4
+	num_numa_domains_per_socket = 2
+	num_cores_per_numa_domain   = 32
+
+Memory = 527.87 GB
+
+CPU Caches:
+	L1_cache = 48K (12-way)
+	L2_cache = 2048K (16-way)
+	L3_cache = 327680K (20-way)
+	L3_cache_per_sock = 327680 KB
+	L3_cache_per_core = 5120 KB
+
+OS:
+Operating System       = Ubuntu 23.10
+Kernel version         = 6.5.0-28-generic
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = intel_pstate
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 2021.10.0 20230609
+Target ISA  = avx512f
+Hostname    = ortce-emr2.jf.intel.com
+Date        = Tue May 28 15:20:43 PDT 2024
+
+stream_avx512.bin.rfo disassembly:
+NT-Stores : does-not-exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 500000000 (elements), Offset = 0 (elements)
+Memory per array = 3814.7 MiB (= 3.7 GiB).
+Total memory required = 11444.1 MiB (= 11.2 GiB).
+Each kernel will be executed 100 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 42
+Number of Threads counted = 42
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 29014 microseconds.
+   (= 29014 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:          198137.8     0.040480     0.040376     0.040866
+Scale:         199059.3     0.040311     0.040189     0.041425
+Add:           268575.8     0.044766     0.044680     0.045604
+Triad:         270110.9     0.044517     0.044426     0.045316
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
