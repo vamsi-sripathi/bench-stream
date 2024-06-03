@@ -31,6 +31,7 @@ AVX512_COPTS      = -xCORE-AVX512 -qopt-zmm-usage=high
 endif
 
 # Common Intel Compiler options that are independent of ISA
+# if using ICX, we may need to use -qopt-dynamic-align -mllvm -unaligned-nontemporal-buffer-size=16384
 COMMON_COPTS  = -Wall -O3 -mcmodel=medium -qopenmp -shared-intel
 
 ifdef use_rfo

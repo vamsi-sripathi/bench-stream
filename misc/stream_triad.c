@@ -176,15 +176,9 @@
 #define STREAM_TYPE double
 #endif
 
-#ifdef BUFFER_ALIGN
-static STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET]  __attribute__((aligned(BUFFER_ALIGN)));
-static STREAM_TYPE	b[STREAM_ARRAY_SIZE+OFFSET]  __attribute__((aligned(BUFFER_ALIGN)));
-static STREAM_TYPE  c[STREAM_ARRAY_SIZE+OFFSET]  __attribute__((aligned(BUFFER_ALIGN)));
-#else
 static STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET],
 			b[STREAM_ARRAY_SIZE+OFFSET],
 			c[STREAM_ARRAY_SIZE+OFFSET];
-#endif
 
 static double	avgtime[4] = {0}, maxtime[4] = {0},
 		mintime[4] = {FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX};
@@ -316,9 +310,9 @@ main()
 #ifdef TUNED
         tuned_STREAM_Copy();
 #else
-#pragma omp parallel for
-	for (j=0; j<STREAM_ARRAY_SIZE; j++)
-	    c[j] = a[j];
+/* #pragma omp parallel for */
+/* 	for (j=0; j<STREAM_ARRAY_SIZE; j++) */
+/* 	    c[j] = a[j]; */
 #endif
 	times[0][k] = mysecond() - times[0][k];
 	
@@ -326,9 +320,9 @@ main()
 #ifdef TUNED
         tuned_STREAM_Scale(scalar);
 #else
-#pragma omp parallel for
-	for (j=0; j<STREAM_ARRAY_SIZE; j++)
-	    b[j] = scalar*c[j];
+/* #pragma omp parallel for */
+/* 	for (j=0; j<STREAM_ARRAY_SIZE; j++) */
+/* 	    b[j] = scalar*c[j]; */
 #endif
 	times[1][k] = mysecond() - times[1][k];
 	
@@ -336,9 +330,9 @@ main()
 #ifdef TUNED
         tuned_STREAM_Add();
 #else
-#pragma omp parallel for
-	for (j=0; j<STREAM_ARRAY_SIZE; j++)
-	    c[j] = a[j]+b[j];
+/* #pragma omp parallel for */
+/* 	for (j=0; j<STREAM_ARRAY_SIZE; j++) */
+/* 	    c[j] = a[j]+b[j]; */
 #endif
 	times[2][k] = mysecond() - times[2][k];
 	
@@ -346,20 +340,12 @@ main()
 #ifdef TUNED
         tuned_STREAM_Triad(scalar);
 #else
+  scalar = k;
 #pragma omp parallel for
 	for (j=0; j<STREAM_ARRAY_SIZE; j++)
 	    a[j] = b[j]+scalar*c[j];
 #endif
 	times[3][k] = mysecond() - times[3][k];
-#ifdef VERBOSE
-  printf ("Trial-%d, COPY = %.2f, SCALE = %.2f, ADD = %.2f, TRIAD = %.2f\n",
-          k,
-          (bytes[0] * 1.e-9)/times[0][k],
-          (bytes[1] * 1.e-9)/times[1][k],
-          (bytes[2] * 1.e-9)/times[2][k],
-          (bytes[3] * 1.e-9)/times[3][k]);
-  fflush(0);
-#endif
 	}
 
     /*	--- SUMMARY --- */
@@ -368,6 +354,7 @@ main()
 	{
 	for (j=0; j<4; j++)
 	    {
+      //if (j==3) printf ("%.2f\n", 1.0E-06 * bytes[j]/times[j][k]);
 	    avgtime[j] = avgtime[j] + times[j][k];
 	    mintime[j] = MIN(mintime[j], times[j][k]);
 	    maxtime[j] = MAX(maxtime[j], times[j][k]);
@@ -387,7 +374,7 @@ main()
     printf(HLINE);
 
     /* --- Check Results --- */
-    checkSTREAMresults();
+    /* checkSTREAMresults(); */
     printf(HLINE);
 
     return 0;

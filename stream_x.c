@@ -43,9 +43,15 @@
 
 #include "stream.h"
 
+#ifdef BUFFER_ALIGN
+STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET]  __attribute__((aligned(BUFFER_ALIGN)));
+STREAM_TYPE	b[STREAM_ARRAY_SIZE+OFFSET]  __attribute__((aligned(BUFFER_ALIGN)));
+STREAM_TYPE c[STREAM_ARRAY_SIZE+OFFSET]  __attribute__((aligned(BUFFER_ALIGN)));
+#else
 STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET],
 			b[STREAM_ARRAY_SIZE+OFFSET],
 			c[STREAM_ARRAY_SIZE+OFFSET];
+#endif
 
 static double	avgtime[4] = {0}, maxtime[4] = {0},
 		mintime[4] = {FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX};
@@ -202,7 +208,16 @@ main()
 	    a[j] = b[j]+scalar*c[j];
 #endif
 	times[3][k] = mysecond() - times[3][k];
-	}
+#ifdef VERBOSE
+  printf ("Trial-%d, COPY = %.2f, SCALE = %.2f, ADD = %.2f, TRIAD = %.2f\n",
+          k,
+          (bytes[0] * 1.e-9)/times[0][k],
+          (bytes[1] * 1.e-9)/times[1][k],
+          (bytes[2] * 1.e-9)/times[2][k],
+          (bytes[3] * 1.e-9)/times[3][k]);
+  fflush(0);
+#endif
+}
 
     /*	--- SUMMARY --- */
 

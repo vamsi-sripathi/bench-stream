@@ -73,7 +73,14 @@ void stream_extensions()
       total_sum += partial_sum[j];
     }
 #endif
-  }
+#ifdef VERBOSE
+  printf ("Trial-%d, FILL = %.2f, REDUCE = %.2f\n",
+          k,
+          (bytes[0] * 1.e-9)/times[0][k],
+          (bytes[1] * 1.e-9)/times[1][k]);
+  fflush(0);
+#endif
+}
 
   for (k=1; k<NTIMES; k++)
   {
