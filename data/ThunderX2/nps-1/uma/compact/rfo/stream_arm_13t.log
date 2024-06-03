@@ -1,0 +1,83 @@
+
+CPU Model =  ThunderX2 99xx
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 56
+	num_cores_per_socket = 28
+	num_threads_per_core = 4
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 2
+	num_numa_domains_per_socket = 1
+	num_cores_per_numa_domain   = 28
+
+Memory = 263.50 GB
+
+CPU Caches:
+	L1_cache = 32K (8-way)
+	L2_cache = 256K (8-way)
+	L3_cache = 32768K (32-way)
+	L3_cache_per_sock = 8176 KB
+	L3_cache_per_core = 292 KB
+
+OS:
+Operating System       = Ubuntu 20.04.1 LTS
+Kernel version         = 5.4.0-64-generic
+CPU Turbo Boost        = 
+CPU Scaling Governor   = 
+CPU Scaling Driver     = 
+Transparent Huge Pages = enabled
+
+ICC version = 
+Target ISA  = 
+Hostname    = ortce-cavium3
+Date        = Wed 28 Apr 2021 01:51:49 AM UTC
+
+stream_arm.bin disassembly:
+NT-Stores : does-not-exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 269000000 (elements), Offset = 0 (elements)
+Memory per array = 2052.3 MiB (= 2.0 GiB).
+Total memory required = 6156.9 MiB (= 6.0 GiB).
+Each kernel will be executed 50 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 13
+Number of Threads counted = 13
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 43792 microseconds.
+   (= 43792 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:           80400.7     0.053646     0.053532     0.053873
+Scale:          65607.7     0.065723     0.065602     0.066178
+Add:            73984.0     0.087453     0.087262     0.088055
+Triad:          75321.2     0.085911     0.085713     0.086240
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+-------------------------------------------------------------
+STREAM Extra kernels..
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Fill:           64989.6     0.033216     0.033113     0.033468
+Reduce:         37117.6     0.058152     0.057978     0.058505
+-------------------------------------------------------------
+validation passed for Fill kernel
+validation passed for Reduce kernel

@@ -1,0 +1,42 @@
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 269000000 (elements), Offset = 0 (elements)
+Memory per array = 2052.3 MiB (= 2.0 GiB).
+Total memory required = 6156.9 MiB (= 6.0 GiB).
+Each kernel will be executed 100 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 20
+Number of Threads counted = 20
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 6906 microseconds.
+   (= 6906 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:          561886.3     0.007672     0.007660     0.007692
+Scale:         569616.4     0.007565     0.007556     0.007576
+Add:           711878.3     0.009078     0.009069     0.009088
+Triad:         698239.5     0.009261     0.009246     0.009278
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+-------------------------------------------------------------
+STREAM Extra kernels..
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Fill:          430062.0     0.005010     0.005004     0.005016
+Reduce:        311837.7     0.006913     0.006901     0.006923
+-------------------------------------------------------------
+validation passed for Fill kernel
+validation passed for Reduce kernel

@@ -1,0 +1,41 @@
+
+CPU Model =  ThunderX2 99xx
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 56
+	num_cores_per_socket = 56
+	num_threads_per_core = 4
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 2
+	num_numa_domains_per_socket = 1
+	num_cores_per_numa_domain   = 28
+
+Memory = 263.50 GB
+
+CPU Caches:
+	L1_cache = 32K (8-way)
+	L2_cache = 256K (8-way)
+	L3_cache = 32768K (32-way)
+	L3_cache_per_sock = 8176 KB
+	L3_cache_per_core = 292 KB
+
+OS:
+Operating System       = Ubuntu 20.04.1 LTS
+Kernel version         = 5.4.0-64-generic
+CPU Turbo Boost        = 
+CPU Scaling Governor   = 
+CPU Scaling Driver     = 
+Transparent Huge Pages = enabled
+
+ICC version = 
+Target ISA  = 
+Hostname    = ortce-cavium3
+Date        = Wed 28 Apr 2021 01:51:49 AM UTC
+
+stream_arm.bin disassembly:
+NT-Stores : does-not-exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist

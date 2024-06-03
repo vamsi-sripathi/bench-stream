@@ -1,0 +1,83 @@
+
+CPU Model =  Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 44
+	num_cores_per_socket = 22
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 2
+	num_numa_domains_per_socket = 1
+	num_cores_per_numa_domain   = 22
+
+Memory = 131.90 GB
+
+CPU Caches:
+	L1_cache = 32K (8-way)
+	L2_cache = 256K (8-way)
+	L3_cache = 56320K (20-way)
+	L3_cache_per_sock = 56320 KB
+	L3_cache_per_core = 2560 KB
+
+OS:
+Operating System       = CentOS Linux 8
+Kernel version         = 4.18.0-240.22.1.el8_3.crt1.x86_64
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = userspace
+CPU Scaling Driver     = acpi-cpufreq
+Transparent Huge Pages = enabled
+
+ICC version = icc (ICC) 19.1.3.304 20200925
+Target ISA  = avx2
+Hostname    = elb04
+Date        = Fri Apr 23 05:01:03 MDT 2021
+
+stream_avx2_rfo.bin disassembly:
+NT-Stores : does-not-exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 269000000 (elements), Offset = 0 (elements)
+Memory per array = 2052.3 MiB (= 2.0 GiB).
+Total memory required = 6156.9 MiB (= 6.0 GiB).
+Each kernel will be executed 100 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 22
+Number of Threads counted = 22
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 76387 microseconds.
+   (= 76387 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:           42123.8     0.102424     0.102175     0.102654
+Scale:          41739.0     0.103360     0.103117     0.103644
+Add:            48191.7     0.134270     0.133965     0.134490
+Triad:          48254.0     0.134033     0.133792     0.134301
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+-------------------------------------------------------------
+STREAM Extra kernels..
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Fill:           28754.7     0.074988     0.074840     0.075156
+Reduce:         68209.3     0.031634     0.031550     0.031729
+-------------------------------------------------------------
+validation passed for Fill kernel
+validation passed for Reduce kernel

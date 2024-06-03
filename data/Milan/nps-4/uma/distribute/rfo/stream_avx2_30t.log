@@ -1,0 +1,82 @@
+
+CPU Model =  AMD EPYC 7763 64-Core Processor
+
+Sockets/Cores/Threads:
+	num_sockets          = 2
+	num_cores_total      = 128
+	num_cores_per_socket = 64
+	num_threads_per_core = 2
+	Hyper-Threading      = true
+
+NUMA:
+	num_numa_domains            = 8
+	num_numa_domains_per_socket = 4
+	num_cores_per_numa_domain   = 16
+
+Memory:
+	mem_vendor           = Hynix
+	mem_speed            =  3200 MT/s
+	mem_type             = DDR4
+	mem_size_total       = 512 GB
+	mem_size_per_dimm    =  32 GB
+	num_mem_channels     = 16
+	peak_mem_bw_system   = 409.60 GB/sec
+	peak_mem_bw_per_sock = 204.80 GB/sec
+
+CPU Caches:
+	L1_cache = 32K (8-way)
+	L2_cache = 512K (8-way)
+	L3_cache = 32768K (16-way)
+	L3_cache_per_sock = 262144 KB
+	L3_cache_per_core = 4096 KB
+
+OS:
+Operating System       = Red Hat Enterprise Linux 8.3 (Ootpa)
+Kernel version         = 4.18.0-240.10.1.el8_3.x86_64
+CPU Turbo Boost        = enabled
+CPU Scaling Governor   = performance
+CPU Scaling Driver     = acpi-cpufreq
+Transparent Huge Pages = disabled
+
+ICC version = icc (ICC) 19.1.2.254 20200623
+Target ISA  = avx2
+Hostname    = milan-1.jf.intel.com
+Date        = Sun Apr 19 16:49:12 PDT 2020
+
+stream_avx2.bin disassembly:
+NT-Stores : does-not-exist
+Memcpy()  : does-not-exist
+Memset()  : does-not-exist
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 268435456 (elements), Offset = 0 (elements)
+Memory per array = 2048.0 MiB (= 2.0 GiB).
+Total memory required = 6144.0 MiB (= 6.0 GiB).
+Each kernel will be executed 100 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 30
+Number of Threads counted = 30
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 27762 microseconds.
+   (= 27762 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:          105483.1     0.041067     0.040717     0.042675
+Scale:         104444.6     0.041450     0.041122     0.043324
+Add:           117331.7     0.055178     0.054908     0.057188
+Triad:         118638.6     0.054782     0.054303     0.057745
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------

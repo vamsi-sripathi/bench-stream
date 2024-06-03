@@ -1,0 +1,4 @@
+#28-threads				
+#NUMA-domain	Copy	Triad	Reduce	Fill
+0	109.13	112.14
+1	51.76	40.63
