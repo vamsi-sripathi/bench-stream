@@ -1,0 +1,28 @@
+#Arch	Copy	Triad	Reduce	Fill
+HSW	51.92	54.40	60.22	45.57
+#Arch	Copy	Triad	Reduce	Fill
+BDW	59.18	63.98	70.66	53.62
+#Arch	Copy	Triad	Reduce	Fill
+SKX	99.30	103.99	113.36	80.01
+#Arch	Copy	Triad	Reduce	Fill
+CLX	108.93	111.85	122.96	82.91
+#Arch	Copy	Triad	Reduce	Fill
+ICX	159.43	159.13	175.80	135.78
+SPR 242.43  245.01  270.6
+EMR 266.74  275.47  308.88
+SRF 216.33  229.84  305.00
+GNR-DDR 438.32  458.32 554.40
+GNR-MCR 581.16  607.26
+#Arch	Copy	Triad	Reduce	Fill
+Rome	159.50	157.03	172.16	159.09
+Milan	167.73	170.30	
+Genoa 354.19  370.17 391.75
+NV-Grace  317.46  304.66 306.27
+SPR-HBM 831.17  878.46 746.384
+#Arch	Copy	Triad	Reduce	Fill
+#Power9	121.96	135.44	92.61	84.22
+#ThunderX2	112.75	110.59
+#Arch	Copy	Triad	Reduce	Fill
+#Graviton2	162.28	164.38	164.31	160.76
+#Arch	Copy	Triad	Reduce	Fill
+#A64FX	833.13	855.67	735.51	530.05

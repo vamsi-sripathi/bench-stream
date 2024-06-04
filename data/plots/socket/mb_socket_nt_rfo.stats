@@ -1,0 +1,22 @@
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+HSW	51.92	54.40	HSW	37.20	42.12
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+BDW	59.18	63.98	BDW	42.11	48.38
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+SKX	99.30	103.99	SKX	67.92	76.71
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+CLX	108.93	111.85	CLX	72.69	82.60
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+ICX	159.43	159.13	ICX	150.41	153.55
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+SPR 242.43  245.01 SPR 0 235.56
+EMR 266.74  275.47 EMR 0 277.20
+SRF 216.33  229.84 SRF 0 211.68
+GNR-DDR 438.32  458.32 GNR-DDR 0 471.86
+#GNR-MCR 581.16  607.26 GNR-MCR 0 TBD
+SPR-HBM 831.17  878.46 SPR-HBM 0 771.41
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+Rome	159.50	157.03	Rome	101.34	111.38
+#Arch	Copy	Triad	Reduce	Fill	#Arch	Copy	Triad	Reduce	Fill
+Milan	167.73	170.31	Milan	109.47	122.80
+Genoa 354.19  370.17 Genoa  0 280.91
