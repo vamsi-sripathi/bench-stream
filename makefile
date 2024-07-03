@@ -1,7 +1,13 @@
-#ifndef CC
-# Use -diag-disable=10441 knob to supress ICC EOL msgs
-CC  = icc
-#endif
+CC  = icx
+
+# Common Intel Compiler options that are independent of ISA
+COMMON_COPTS  = -Wall -O3 -mcmodel=medium -qopenmp -fno-builtin
+
+ifeq ($(CC),icc)
+COMMON_COPTS += -shared-intel -diag-disable=10441
+else
+# if using ICX, we may need to use -qopt-dynamic-align -mllvm -unaligned-nontemporal-buffer-size=16384
+endif
 
 # STREAM options:
 # -DNTIMES control the number of times each stream kernel is executed
@@ -30,14 +36,10 @@ AVX2_COPTS        = -xCORE-AVX2
 AVX512_COPTS      = -xCORE-AVX512 -qopt-zmm-usage=high
 endif
 
-# Common Intel Compiler options that are independent of ISA
-# if using ICX, we may need to use -qopt-dynamic-align -mllvm -unaligned-nontemporal-buffer-size=16384
-COMMON_COPTS  = -Wall -O3 -mcmodel=medium -qopenmp -shared-intel
-
 ifdef use_rfo
-COMMON_COPTS += -qopt-streaming-stores=never -fno-builtin
+COMMON_COPTS += -qopt-streaming-stores=never
 else
-COMMON_COPTS += -qopt-streaming-stores=always -fno-builtin
+COMMON_COPTS += -qopt-streaming-stores=always
 endif
 
 ifdef spr_hbm
