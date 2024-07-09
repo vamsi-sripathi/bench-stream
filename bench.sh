@@ -304,13 +304,10 @@ function bench_sweep()
   unset OMP_PROC_BIND
   unset KMP_HW_SUBSET
 
-  thread_list=(1 ${num_cores_per_numa_domain})
-  if [ "${num_cores_per_numa_domain}" != "${num_cores_per_sock}" ]; then
-    thread_list+=(${num_cores_per_sock})
-  fi
-
   cp $$-runinfo.log ${res_dir}/runinfo.log
-  for t in ${thread_list[*]}
+
+# Limit NUMA runs to num_cores_per_numa_domain
+  for t in ${num_cores_per_numa_domain}
   do
     export OMP_NUM_THREADS=$t
     for ((id=0;id<${num_numa_domains};id++));
@@ -331,5 +328,5 @@ function bench_sweep()
 mach_info
 show_mach_info 2>&1 | tee $$-runinfo.log
 check_binary
-#bench_simple
-bench_sweep
+bench_simple
+#bench_sweep
