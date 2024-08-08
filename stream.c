@@ -270,7 +270,11 @@ main()
 #endif
 
     /* Get initial value for system clock. */
+#ifdef STREAM_CHUNK_SIZE
+#pragma omp parallel for schedule(static, STREAM_CHUNK_SIZE)
+#else
 #pragma omp parallel for
+#endif
     for (j=0; j<STREAM_ARRAY_SIZE; j++) {
 	    a[j] = 1.0;
 	    b[j] = 2.0;
@@ -316,7 +320,11 @@ main()
 #ifdef TUNED
         tuned_STREAM_Copy();
 #else
+#ifdef STREAM_CHUNK_SIZE
+#pragma omp parallel for schedule(static, STREAM_CHUNK_SIZE)
+#else
 #pragma omp parallel for
+#endif
 	for (j=0; j<STREAM_ARRAY_SIZE; j++)
 	    c[j] = a[j];
 #endif
@@ -326,7 +334,11 @@ main()
 #ifdef TUNED
         tuned_STREAM_Scale(scalar);
 #else
+#ifdef STREAM_CHUNK_SIZE
+#pragma omp parallel for schedule(static, STREAM_CHUNK_SIZE)
+#else
 #pragma omp parallel for
+#endif
 	for (j=0; j<STREAM_ARRAY_SIZE; j++)
 	    b[j] = scalar*c[j];
 #endif
@@ -336,7 +348,11 @@ main()
 #ifdef TUNED
         tuned_STREAM_Add();
 #else
+#ifdef STREAM_CHUNK_SIZE
+#pragma omp parallel for schedule(static, STREAM_CHUNK_SIZE)
+#else
 #pragma omp parallel for
+#endif
 	for (j=0; j<STREAM_ARRAY_SIZE; j++)
 	    c[j] = a[j]+b[j];
 #endif
@@ -346,7 +362,11 @@ main()
 #ifdef TUNED
         tuned_STREAM_Triad(scalar);
 #else
+#ifdef STREAM_CHUNK_SIZE
+#pragma omp parallel for schedule(static, STREAM_CHUNK_SIZE)
+#else
 #pragma omp parallel for
+#endif
 	for (j=0; j<STREAM_ARRAY_SIZE; j++)
 	    a[j] = b[j]+scalar*c[j];
 #endif
