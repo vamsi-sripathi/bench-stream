@@ -46,7 +46,12 @@ ifdef spr_hbm
 # Prefetches are only needed for NT's on SPR-HBM
 ifndef use_rfo
 STREAM_ARRAY_SIZE = 500000000
+ifeq ($(CC),icc)
 COMMON_COPTS     += -qopt-prefetch=5 -qopt-prefetch-distance=128,16
+else
+# ICX currently does not support L1$ prefetch distance
+COMMON_COPTS     += -qopt-prefetch=5 -qopt-prefetch-distance=128
+endif
 endif
 endif
 
