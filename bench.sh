@@ -56,7 +56,10 @@ function mach_info()
    kernel_release=$(uname -r)
    hostname=$(hostname -f)
    thp=$( [ "$(grep -o "\[always\]" /sys/kernel/mm/*transparent_hugepage/enabled)" == "[always]" ] && echo "enabled" || echo "disabled")
-   icc_version=$(icc --version | head -n1)
+   which icc &> /dev/null
+   icc_version=$( [ $? -eq 0 ] && echo "$(icc --version | head -n1)" || echo "ICC not found")
+   which icx &> /dev/null
+   icx_version=$( [ $? -eq 0 ] && echo "$(icx --version | head -n1)" || echo "ICX not found")
 
    if [ -f /sys/devices/system/cpu/intel_pstate/no_turbo ]; then
       cpu_turbo=$( [ "$(cat /sys/devices/system/cpu/intel_pstate/no_turbo)" == 1 ] && echo "disabled" || echo "enabled")
@@ -126,6 +129,7 @@ function show_mach_info()
   echo -e "Transparent Huge Pages = $thp"
 
   echo ""
+  echo "ICX version = ${icx_version}"
   echo "ICC version = ${icc_version}"
   echo "Target ISA  = ${target_cpu}"
   echo "Hostname    = $(hostname -f)"
@@ -325,8 +329,12 @@ function bench_sweep()
      
 
 
-mach_info
-show_mach_info 2>&1 | tee $$-runinfo.log
+if [[ "$1" == "--mach_info_only" ]]; then
+  mach_info
+  show_mach_info 2>&1 | tee $$-runinfo.log
+  exit;
+fi
+
 check_binary
 bench_simple
 #bench_sweep
