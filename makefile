@@ -15,7 +15,7 @@ endif
 # -DSTREAM_TYPE specifies the data-type of elements in the buffers
 # -DSTREAM_ARRAY_SIZE specifies the number of elements in each buffer
 #  size -A -d *.bin || nm --print-size --size-sort --radix=d *.bin
-STREAM_CPP_OPTS   = -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double
+STREAM_CPP_OPTS   = -DNTIMES=500 -DOFFSET=0 -DSTREAM_TYPE=double
 # Size per array is approx. ~2GB. Delibrately using non-power of 2 elements
 # 256*1024*1024 elements = 268435456 elements = 2GiB with FP64
 STREAM_ARRAY_SIZE = 269000000
@@ -63,7 +63,7 @@ ifdef cpu_target
 all: stream_$(cpu_target).bin
 else
 ifdef amd
-all: stream_avx.bin stream_avx2.bin
+all: stream_avx.bin stream_avx2.bin stream_avx512.bin
 else
 all: stream_avx.bin stream_avx2.bin stream_avx512.bin
 endif
@@ -72,9 +72,9 @@ endif
 
 ifdef extra_kernels
 STREAM_CPP_OPTS += -DSTREAM_EXT_KERNELS
-SRC = stream_x.c
-AVX_OBJS += stream_avx_ext_kernels.o
-AVX2_OBJS += stream_avx2_ext_kernels.o
+SRC          = stream_x.c
+AVX_OBJS    += stream_avx_ext_kernels.o
+AVX2_OBJS   += stream_avx2_ext_kernels.o
 AVX512_OBJS += stream_avx512_ext_kernels.o
 else
 SRC = stream.c
