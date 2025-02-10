@@ -9,6 +9,9 @@ else
 # if using ICX, we may need to use -qopt-dynamic-align -mllvm -unaligned-nontemporal-buffer-size=16384
 endif
 
+#simple variable expansion for COMMON_COPTS to avoid additional values going forward
+LINK_COPTS := $(COMMON_COPTS)
+
 # STREAM options:
 # -DNTIMES control the number of times each stream kernel is executed
 # -DOFFSET controls the number of bytes between each of the buffers
@@ -95,13 +98,13 @@ stream_avx512_ext_kernels.o:
 	$(CC) $(COMMON_COPTS) $(AVX512_COPTS) $(STREAM_CPP_OPTS) -c stream_ext_kernels.c -o $@
 
 stream_avx.bin: $(AVX_OBJS)
-	$(CC) $(COMMON_COPTS) $(AVX_COPTS) $^ -o $@
+	$(CC) $(LINK_COPTS) $^ -o $@
 
 stream_avx2.bin: $(AVX2_OBJS)
-	$(CC) $(COMMON_COPTS) $(AVX2_COPTS) $^ -o $@
+	$(CC) $(LINK_COPTS) $^ -o $@
 
 stream_avx512.bin: $(AVX512_OBJS)
-	$(CC) $(COMMON_COPTS) $(AVX512_COPTS) $^ -o $@
+	$(CC) $(LINK_COPTS) $^ -o $@
 
 help:
 	@echo -e "Running 'make' with no options would compile the STREAM benchmark with $(STREAM_ARRAY_SIZE) FP64 elements per array for following Intel CPU's:\n"
