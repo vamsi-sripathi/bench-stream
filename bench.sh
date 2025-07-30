@@ -34,14 +34,18 @@ function mach_info()
      md_size=$(dmidecode -t memory | grep "Memory Device" -A21  | grep -E 'Size:[[:space:]]*[[:digit:]]+' -m1)
      md_type=$(dmidecode -t memory | grep "Memory Device" -A21  | grep -E 'Type:[[:space:]]*DDR' -m1 | awk '{print $NF}')
      md_speed=$(dmidecode -t memory | grep "Memory Device" -A21  | grep -v "Configured Memory Speed"  | grep -E 'Speed:[[:space:]]*[[:digit:]]+' -m1 | awk -F ":" '{print $NF}')
+     md_config_speed=$(dmidecode -t memory | grep "Memory Device" -A21 -m1 | grep -E 'Configured Memory Speed:' | awk -F ":" '{print $NF}')
+     if [ "$(echo ${md_speed} | tr -d "[:alpha:]|[:punct:]" )" != "$(echo ${md_config_speed} | tr -d "[:alpha:]|[:punct:]")" ]; then
+       echo "WARNING: Memory speed mismatch! Speed = $md_speed, Configured Memory Speed = $md_config_speed"
+     fi
+     # use configured memory speed in calculating peak b/w
+     mem_speed=$md_config_speed
      mem_vendor=$(dmidecode -t memory | grep "${md_size}" -m1 -A21 | grep -m1 "Manufacturer:" | awk '{print $NF}')
-     # md_configured_speed=$(dmidecode -t memory | grep "Memory Device" -A21 -m1 | grep -E 'Configured Clock Speed:' | awk -F ":" '{print $NF}')
      # todo: add 'Locator' info and num_mem_channels_per_sock
      num_mem_channels=$(dmidecode -t memory | grep -c "${md_size}")
      size=$(echo $md_size | awk '{print $2}')
      mem_size_total=$(($size*$num_mem_channels))
      mem_size_total+=$(echo " $(echo $md_size | awk '{print $NF}')")
-     mem_speed=$md_speed
      mem_type=$md_type
      mem_size_per_dimm=$(echo $md_size | awk -F ":" '{print $NF}')
      peak_mem_bw_system=$(echo "scale=2; (8 * $num_mem_channels * $(echo $mem_speed | tr -d "[:alpha:]|[:punct:]" ) / 1000)" | bc -l)
@@ -101,14 +105,15 @@ function show_mach_info()
 
   if [ "$EUID" -eq 0 ]; then
     echo -e "\nMemory:"
-    echo -e "\tmem_vendor           = $mem_vendor"
-    echo -e "\tmem_speed            = $mem_speed"
-    echo -e "\tmem_type             = $mem_type"
-    echo -e "\tmem_size_total       = $mem_size_total"
-    echo -e "\tmem_size_per_dimm    = $mem_size_per_dimm"
-    echo -e "\tnum_mem_channels     = $num_mem_channels"
-    echo -e "\tpeak_mem_bw_system   = $peak_mem_bw_system GB/sec"
-    echo -e "\tpeak_mem_bw_per_sock = $peak_mem_bw_per_sock GB/sec"
+    echo -e "\tmem_vendor             = $mem_vendor"
+    echo -e "\tmem_speed              = $md_speed"
+    echo -e "\tmem_configured_speed   = $md_config_speed"
+    echo -e "\tmem_type               = $mem_type"
+    echo -e "\tmem_size_total         = $mem_size_total"
+    echo -e "\tmem_size_per_dimm      = $mem_size_per_dimm"
+    echo -e "\tnum_mem_channels       = $num_mem_channels"
+    echo -e "\tpeak_mem_bw_system     = $peak_mem_bw_system GB/sec"
+    echo -e "\tpeak_mem_bw_per_sock   = $peak_mem_bw_per_sock GB/sec"
   else
     echo -e "\nMemory = $memory_size_total"
   fi
