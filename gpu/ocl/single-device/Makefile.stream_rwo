@@ -1,0 +1,31 @@
+CC=gcc
+
+top_srcdir:=./
+GIT_VERSION:=$(shell sh -c '$(top_srcdir)/GIT-VERSION-GEN .')
+CCOPTS=--std=gnu99 -DGIT_VERSION=\"$(GIT_VERSION)\" -I/opt/intel/opencl/include
+
+LIBS=-L/opt/intel/opencl/lib64 -lOpenCL -lm
+
+.PHONY: all clean
+
+COPTS      = -DCACHEABLE=1
+BIN_SUFFIX = cache
+
+ifeq ($(strip $(cache)),0)
+COPTS      = -DCACHEABLE=0
+BIN_SUFFIX = uncache
+endif
+
+COPTS += -DTYPE_DOUBLE
+
+
+all: stream-ro-dp-$(BIN_SUFFIX)  stream-wo-dp-$(BIN_SUFFIX)
+
+stream-ro-dp-$(BIN_SUFFIX): stream_ro.c ocl_kernels.cl
+	$(CC)  $(COPTS) $(CCOPTS) $< -o $@ $(LIBS)
+
+stream-wo-dp-$(BIN_SUFFIX): stream_wo.c ocl_kernels.cl
+	$(CC)  $(COPTS) $(CCOPTS) $< -o $@ $(LIBS)
+
+clean:
+	rm -f stream-ro-dp-* stream-wo-dp-*

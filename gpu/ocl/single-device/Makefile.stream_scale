@@ -1,0 +1,17 @@
+CC=gcc
+
+top_srcdir:=./
+GIT_VERSION:=$(shell sh -c '$(top_srcdir)/GIT-VERSION-GEN .')
+CCOPTS=--std=gnu99 -DGIT_VERSION=\"$(GIT_VERSION)\" -I/opt/intel/opencl/include
+
+LIBS=-L/opt/intel/opencl/lib64 -lOpenCL -lm
+
+.PHONY: all clean
+
+all: stream-scale-dp-cache 
+
+stream-scale-dp-cache: stream_scale.c ocl_kernels.cl
+	$(CC)  -DCACHEABLE=1 -DTYPE_DOUBLE $(CCOPTS) $< -o $@ $(LIBS)
+
+clean:
+	rm -rf stream-scale-dp-cache 
